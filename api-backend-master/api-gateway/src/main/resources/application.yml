@@ -1,0 +1,47 @@
+# 公共配置文件
+# @author <a href="https://github.com/moxi">墨兮</a>
+# 
+server:
+  port: 8090
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - AddResponseHeader=source, moxi
+      routes:
+        - id: api_route
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+#        - id: add_request_header_route
+#          uri: http://localhost:8123
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#            - AddRequestHeader=moxi, swag
+#            - AddRequestParameter=name, dog
+#            - name: CircuitBreaker
+#              args:
+#                name: myCircuitBreaker
+#                fallbackUri: forward:/fallback
+#        - id: moxi-fallback
+#          uri: https://moxi.icu
+#          predicates:
+#            - Path=/fallback
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
+
+dubbo:
+  application:
+    name: dubbo-springboot-demo-provider
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://localhost:8848
+
